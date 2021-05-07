@@ -1,0 +1,39 @@
+/*
+ * Only use for styling global elements
+ * Only use if it's a style that will (potentially) appear on every page
+ * Only use if style is not part of another component
+ * this is our personal normalize.css
+*/
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  color: #333;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+  width: 100%;
+  @include tablet {
+    width: $tablet-width;
+  }
+  @include laptop {
+    width: $laptop-width;
+  }
+  @include desktop {
+    width: $desktop-width;
+  }
+}
+
+.responsive-image {
+  width: 100%;
+  height: auto;
+}
+

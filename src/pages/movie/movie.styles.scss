@@ -1,0 +1,19 @@
+.movie-page{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.movie-details-container{
+    margin-left: 50px;
+    width:100%;
+}
+
+.movie-detail{
+    margin: 5px 0;
+}
+
+.movie-card{
+    min-width:300px;
+}

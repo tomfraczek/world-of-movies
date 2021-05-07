@@ -1,0 +1,25 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.options{
+    display: flex;
+    align-items: center;
+
+    .logged-in-options{
+        display: flex;
+    }
+
+    .option{
+        margin-right: 15px;
+
+        &:hover{
+            cursor: pointer;
+        }
+
+        &:last-of-type{
+            // margin-right: 0;
+        }
+    }
+}

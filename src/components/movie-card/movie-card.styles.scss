@@ -1,0 +1,25 @@
+.movie-card {
+    max-width: 300px;
+
+    .movie-poster{
+        img{
+            height: 444px;
+            max-width: 100%;
+        }
+    }
+
+    .movie-details{
+        p{
+            display: flex;
+            justify-content: space-between;
+
+            span:last-of-type{
+                text-align: right;
+            }
+
+            .movie-type{
+                text-transform: capitalize;
+            }
+        }
+    }
+}
