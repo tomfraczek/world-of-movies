@@ -51,17 +51,15 @@ class MoviesOverview extends React.Component {
         })
     }
 
-    handleSubmit = event => {
-        event.preventDefault();
-        const { search, API_KEY } = this.state;
-
+    fetchData = (url, currentPage) => {
         this.setState({
             loading: true,
             error: null,
-            results: null
+            results: null,
+            currentPage: currentPage,
         });
 
-        fetch(`http://www.omdbapi.com/?s=${search}&apikey=${API_KEY}`)
+        fetch(url)
         .then(resp => resp)
         .then(resp => resp.json())
         .then(response => {
@@ -75,7 +73,6 @@ class MoviesOverview extends React.Component {
                     error: null
                 })
                 this.setState({totalResults: response.totalResults})
-                console.log(response)
                 localStorage.setItem('results', JSON.stringify(this.state.results));
                 localStorage.setItem('searchQuery', this.state.search)
             }
@@ -89,6 +86,13 @@ class MoviesOverview extends React.Component {
                 error: message,
             });
         })
+    }
+
+    handleSubmit = event => {
+        event.preventDefault();
+        const { search, API_KEY } = this.state;
+
+        this.fetchData(`http://www.omdbapi.com/?s=${search}&apikey=${API_KEY}`);
     }
 
     sortByYear = () => {
@@ -120,44 +124,8 @@ class MoviesOverview extends React.Component {
 
     handlePagination = event => {
         const { search, API_KEY } = this.state;
-
-        this.setState({
-            loading: true,
-            error: null,
-            results: null,
-            currentPage: event.target.id,
-        });
-
-        console.log(this.state.currentPage)
-
-        fetch(`http://www.omdbapi.com/?s=${search}&apikey=${API_KEY}&page=${event.target.id}`)
-        .then(resp => resp)
-        .then(resp => resp.json())
-        .then(response => {
-            if (response.Response === 'False') {
-                console.log(response.Error);
-                this.setState({error: response.Error})
-            }
-            else {
-                this.setState({
-                    results: response.Search,
-                    error: null
-                })
-                this.setState({totalResults: response.totalResults})
-                console.log(response)
-                localStorage.setItem('results', JSON.stringify(this.state.results));
-                localStorage.setItem('searchQuery', this.state.search)
-            }
-
-            this.setState({loading: false})
-        })
-        .catch(({message}) => {
-            console.log(message)
-            this.setState({
-                loading: false,
-                error: message,
-            });
-        })
+        
+        this.fetchData(`http://www.omdbapi.com/?s=${search}&apikey=${API_KEY}&page=${event.target.id}`, event.target.id)
       }
 
       
