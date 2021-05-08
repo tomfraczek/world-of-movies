@@ -1,0 +1,29 @@
+.homepage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+
+    img{
+        width:100%;
+    }
+}
+
+.banner-text{
+    position: absolute;
+    
+    h3,
+    h4{
+        color: white;
+        text-shadow: 2px 2px 2px #000000;
+        text-align: center;
+    }
+    h3{
+        font-size: 44px;
+    }
+    
+    h4{
+        font-size: 38px;
+    }
+}
+

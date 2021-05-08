@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link, withRouter, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import MovieCard from '../../components/movie-card/movie-card.component';
 import Spinner from '../../components/spinner/spinner.component';
+import CustomButton from '../../components/custom-button/custom-button.component';
+import CustomInformation from '../../components/custom-information/custom-information.component';
 
 import './movie.styles.scss';
 
@@ -54,13 +56,10 @@ class MoviePage extends React.Component {
 
   render(){
     const {result} = this.state;
-    // const retrievedResults = localStorage.getItem('result');
-    // const retrievedResultsJson = JSON.parse(retrievedResults)
-    // console.log(retrievedResultsJson);
+    const {history} = this.props;
 
     return(
-            <div className="movie-page">
-              
+            <div className="movie-page">              
               {
                 result ? <MovieCard movie={result} /> : null
               }
@@ -69,43 +68,55 @@ class MoviePage extends React.Component {
                 {
                   result ? 
                   <div className='movie-details'>
+                    <CustomButton
+                inverted
+                naked
+                onClick={() => history.goBack()}
+            >
+                Go Back
+            </CustomButton>
                     {
                       result.Plot != 'N/A' ?
-                      <div className="movie-detail movie-plot">
-                        <span>{result.Plot}</span>
-                      </div>
+                      <CustomInformation 
+                        information={result.Plot}
+                        classname='movie-detail movie-plot'
+                      />
                       : null
                     }
                     {
                       result.Director != 'N/A' ? 
-                      <div className='movie-detail movie-director'>
-                        <span>Director: </span>
-                        <span>{result.Director}</span>
-                      </div>
+                      <CustomInformation 
+                        title='Director:'
+                        information={result.Director}
+                        classname='movie-detail movie-plot'
+                      />
                       : null
                     }
                     {
                       result.Writer != 'N/A' ? 
-                      <div className='movie-detail movie-writers'>
-                        <span>Writers: </span>
-                        <span>{result.Writer}</span>
-                      </div>
+                      <CustomInformation 
+                        title='Writers:'
+                        information={result.Writer}
+                        classname='movie-detail movie-plot'
+                      />
                       : null
                     }
                     {
                       result.Actors != 'N/A' ? 
-                      <div className="movie-detail movie-actors">
-                        <span>Actors: </span>
-                        <span>{result.Actors}</span>
-                      </div>
+                      <CustomInformation 
+                        title='Actors:'
+                        information={result.Actors}
+                        classname='movie-detail movie-plot'
+                      />
                       : null
                     }
                     {
                       result.Awards != 'N/A' ? 
-                      <div className="movie-detail movie-awards">
-                        <span>Awards: </span>
-                        <span>{result.Awards}</span>
-                      </div>
+                      <CustomInformation 
+                        title='Awards:'
+                        information={result.Awards}
+                        classname='movie-detail movie-plot'
+                      />
                       : null
                     }
                     {
@@ -114,18 +125,21 @@ class MoviePage extends React.Component {
                         Ratings:
                         {
                           result.imdbRating ? 
-                          <div className="imdb-rate">
-                            <span>IMDb rate: </span>
-                            <span>{result.imdbRating}</span>
-                          </div>
+                          <CustomInformation 
+                            title='IMDb rate:'
+                            information={result.imdbRating}
+                            classname='imdb-rate'
+                          />
                           : null
                         }
                         {
                           result.Ratings.map((rating, index) => 
-                            <div key={index} className="rating">
-                              <span>{rating.Source}: </span>
-                              <span>{rating.Value}</span>
-                            </div>
+                            <CustomInformation 
+                              key={index}
+                              title={rating.Source}
+                              information={rating.Source}
+                              classname='rating'
+                            />
                           )
                         }
                       </div>
@@ -135,6 +149,26 @@ class MoviePage extends React.Component {
                   </div>
                   : <Spinner />
                 }
+
+                <div className="cta-container">
+                  <CustomButton
+                  inverted
+                  >
+                    Add to Favorites
+                  </CustomButton>
+
+                  <CustomButton
+                  inverted
+                  >
+                    Want to see
+                  </CustomButton>
+
+                  <CustomButton
+                  inverted
+                  >
+                    Mark as watched
+                  </CustomButton>
+              </div>
               </div>
             </div>
         )

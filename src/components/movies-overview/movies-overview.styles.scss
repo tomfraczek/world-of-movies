@@ -67,3 +67,43 @@
     align-items: center;
     justify-content: space-between;
 }
+
+.movies-welcome-message{
+    width:100%;
+    text-align: center;
+}
+
+.pagination{
+    ul{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        li{
+            list-style-type: none;
+            border: 1px solid black;
+            list-style-type: none;
+            border: 1px solid black;
+            margin: 10px 10px;
+            width: 50px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &.active{
+                background: black;
+                color: white;
+            }
+
+            &:hover{
+                cursor: pointer;
+                background: black;
+                color: white;
+            }
+        }
+    }
+
+    margin: 50px 0 100px 0;
+}

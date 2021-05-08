@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import CustomButton from '../custom-button/custom-button.component';
 
 import defaultPoster from './assets/no-photos.svg';
 
@@ -10,12 +11,23 @@ const MovieCard = ({movie, history, match}) => (
         <div className="movie-poster">
             <img src={movie.Poster !== 'N/A' ? movie.Poster : defaultPoster} alt=""/>
         </div>
-
         <div className="movie-details">
             { movie.Title ? <p><span>Title:</span><span>{movie.Title}</span></p> : null }
             { movie.Year ? <p><span>Year:</span><span>{movie.Year}</span></p> : null }
             { movie.Type ? <p><span>Type:</span><span className='movie-type'>{movie.Type}</span></p> : null }
         </div>
+
+        {
+            match.path !== '/movies/:movieId' ? 
+            <CustomButton
+                inverted
+                onClick={() => history.push(`${match.url}/${movie.imdbID}`)}
+            >
+                Read More
+            </CustomButton>
+         : null
+        }
+        
     </div>
 )
 

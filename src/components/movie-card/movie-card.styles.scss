@@ -1,5 +1,19 @@
 .movie-card {
     max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    transition: all easy 0.3s;
+
+    &:hover{
+        cursor: pointer;
+    }
+
+    &:hover > .custom-button{
+        transition: all easy 0.3s;
+        background: black;
+        color: white;
+    }
 
     .movie-poster{
         img{

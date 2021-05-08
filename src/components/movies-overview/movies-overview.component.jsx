@@ -21,6 +21,8 @@ class MoviesOverview extends React.Component {
             yearAsc: false,
             titleAsc: false,
             typeAsc: false,
+            totalResults: null,
+            currentPage: 1,
         }
     }
 
@@ -72,6 +74,7 @@ class MoviesOverview extends React.Component {
                     results: response.Search,
                     error: null
                 })
+                this.setState({totalResults: response.totalResults})
                 console.log(response)
                 localStorage.setItem('results', JSON.stringify(this.state.results));
                 localStorage.setItem('searchQuery', this.state.search)
@@ -110,13 +113,71 @@ class MoviesOverview extends React.Component {
         this.setState({
             search: '',
             results: null,
+            totalResults: 0,
         })
         localStorage.clear();
     }
 
+    handlePagination = event => {
+        const { search, API_KEY } = this.state;
+
+        this.setState({
+            loading: true,
+            error: null,
+            results: null,
+            currentPage: event.target.id,
+        });
+
+        console.log(this.state.currentPage)
+
+        fetch(`http://www.omdbapi.com/?s=${search}&apikey=${API_KEY}&page=${event.target.id}`)
+        .then(resp => resp)
+        .then(resp => resp.json())
+        .then(response => {
+            if (response.Response === 'False') {
+                console.log(response.Error);
+                this.setState({error: response.Error})
+            }
+            else {
+                this.setState({
+                    results: response.Search,
+                    error: null
+                })
+                this.setState({totalResults: response.totalResults})
+                console.log(response)
+                localStorage.setItem('results', JSON.stringify(this.state.results));
+                localStorage.setItem('searchQuery', this.state.search)
+            }
+
+            this.setState({loading: false})
+        })
+        .catch(({message}) => {
+            console.log(message)
+            this.setState({
+                loading: false,
+                error: message,
+            });
+        })
+      }
+
       
             render(){
-                const { search, results, error, loading } = this.state;
+                const { search, results, error, loading, totalResults, currentPage } = this.state;
+                const pageNumbers = [];
+                for (let i = 0; i < Math.floor(totalResults / 10); i++) {
+                    pageNumbers.push(i+1)      
+                }
+
+                const renderPageNumbers = pageNumbers.map(number => (
+                    <li
+                        key={number}
+                        id={number}
+                        onClick={this.handlePagination}
+                        className={number == currentPage ? 'active' : null}
+                      >
+                        {number}
+                      </li>
+                ));
 
                 return(
                     <div className="movies-overview">
@@ -162,6 +223,7 @@ class MoviesOverview extends React.Component {
                                     onClick={this.resetSearch}
                                     inverted
                                     naked
+                                    classname='movies-overview-reset'
                                 >
                                     Reset
                                 </CustomButton>
@@ -184,9 +246,19 @@ class MoviesOverview extends React.Component {
                             }
 
                             {
-                                !results && !loading ? <p>Use the form above to find a movie</p> : null
+                                !results && !loading ? <p className='movies-welcome-message'>Use the search bar above to find a movie</p> : null
                             }
                         </div>
+
+                        {
+                            totalResults > 10 ? 
+                                <div className='pagination'>
+                                    <ul>
+                                        {renderPageNumbers}
+                                    </ul>
+                                </div>
+                            : null
+                        }
                     </div>
                 )
             }

@@ -3,6 +3,7 @@
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
+    margin-top:40px;
 }
 
 .movie-details-container{
@@ -16,4 +17,11 @@
 
 .movie-card{
     min-width:300px;
+}
+
+.cta-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 50px;
 }

@@ -9,17 +9,19 @@
     background-color: black;
     color: white;
     text-transform: uppercase;
-    font-family: 'Open Sans Condensed';
+    font-family: 'Helvetica';
     font-weight: bolder;
     border: none;
     cursor: pointer;
     display: flex;
     justify-content: center;
+    transition: all easy 0.3s;
   
     &:hover {
       background-color: white;
       color: black;
       border: 1px solid black;
+      transition: all easy 0.3s;
     }
 
     &.google-sign-in{
@@ -44,8 +46,21 @@
       }
       &.btn-naked{
         border: 0;
+        text-decoration: none;
+        margin: 0;
+        padding: 0;
+        min-width: auto;
+
+        &:hover{
+          background: none;
+          color: black;
+          text-decoration: underline;
+        }
       }
     }
   }
 
+  .option{
+    text-decoration: none;
+  }
   
