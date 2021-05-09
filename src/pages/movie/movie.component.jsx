@@ -10,46 +10,29 @@ import './movie.styles.scss';
 
 
 class MoviePage extends React.Component {
-  constructor(){
-      super();
-
-      this.state = {
-          API_KEY: 'da814607',
-          result: null,
-          remember: false,
-          retrievedResults: null,
-      }
-  }
+  state = {
+    API_KEY: 'da814607',
+    result: null,
+    remember: false,
+    retrievedResults: null,
+}
 
   componentDidMount(){
-    const { search, API_KEY } = this.state;
+    const { API_KEY } = this.state;
 
-        //TODO: WORK ON THE SPINNER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-
-        // this.setState({
-        //     loading: true,
-        //     error: null,
-        //     result: null
-        // });
-        fetch(`http://www.omdbapi.com/?i=${this.props.match.params.movieId}&apikey=${API_KEY}`)
+    fetch(`http://www.omdbapi.com/?i=${this.props.match.params.movieId}&apikey=${API_KEY}`)
         .then(resp => resp)
         .then(resp => resp.json())
         .then(response => {
-          console.log(response)
           this.setState({
             result: response,
             remember: true
           })
-
-          // localStorage.setItem('result', JSON.stringify(response));
-          // console.log(localStorage.getItem('result'))
-          // console.log(JSON.parse(localStorage.getItem('result')))
-            // this.setState({loading: false})
         })
-        .catch(({message}) => {
+        .catch(({error}) => {
             this.setState({
-                // loading: false,
-                error: message,
+                loading: false,
+                error: error,
             });
         })
   }
@@ -76,7 +59,7 @@ class MoviePage extends React.Component {
                 Go Back
             </CustomButton>
                     {
-                      result.Plot != 'N/A' ?
+                      result.Plot !== 'N/A' ?
                       <CustomInformation 
                         information={result.Plot}
                         classname='movie-detail movie-plot'
@@ -84,7 +67,7 @@ class MoviePage extends React.Component {
                       : null
                     }
                     {
-                      result.Director != 'N/A' ? 
+                      result.Director !== 'N/A' ? 
                       <CustomInformation 
                         title='Director:'
                         information={result.Director}
@@ -93,7 +76,7 @@ class MoviePage extends React.Component {
                       : null
                     }
                     {
-                      result.Writer != 'N/A' ? 
+                      result.Writer !== 'N/A' ? 
                       <CustomInformation 
                         title='Writers:'
                         information={result.Writer}
@@ -102,7 +85,7 @@ class MoviePage extends React.Component {
                       : null
                     }
                     {
-                      result.Actors != 'N/A' ? 
+                      result.Actors !== 'N/A' ? 
                       <CustomInformation 
                         title='Actors:'
                         information={result.Actors}
@@ -111,7 +94,7 @@ class MoviePage extends React.Component {
                       : null
                     }
                     {
-                      result.Awards != 'N/A' ? 
+                      result.Awards !== 'N/A' ? 
                       <CustomInformation 
                         title='Awards:'
                         information={result.Awards}
@@ -120,7 +103,7 @@ class MoviePage extends React.Component {
                       : null
                     }
                     {
-                      result.Ratings != 'N/A' ? 
+                      result.Ratings !== 'N/A' ? 
                       <div className="movie-detail movie-ratings">
                         Ratings:
                         {

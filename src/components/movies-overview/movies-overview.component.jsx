@@ -27,11 +27,9 @@ class MoviesOverview extends React.Component {
     }
 
     componentDidMount(){
-        console.log(this.state);
         const retrievedResults = localStorage.getItem('results');
         const retrievedResultsJson = JSON.parse(retrievedResults)
         if(retrievedResultsJson){
-            console.log(retrievedResultsJson);
             this.setState({
                 results: retrievedResultsJson,
                 search: localStorage.getItem('searchQuery'),
@@ -141,7 +139,7 @@ class MoviesOverview extends React.Component {
                         key={number}
                         id={number}
                         onClick={this.handlePagination}
-                        className={number == currentPage ? 'active' : null}
+                        className={number === currentPage ? 'active' : null}
                       >
                         {number}
                       </li>

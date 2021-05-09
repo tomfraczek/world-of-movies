@@ -11,7 +11,7 @@ const Homepage = () => (
     <div className="banner-text">
         <img className='banner-logo' src={logo} alt=""/>
     </div>
-    <img src={mainImage} alt="homepage image"/>
+    <img src={mainImage} alt=""/>
     </div>
 )
 

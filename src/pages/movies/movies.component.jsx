@@ -6,7 +6,7 @@ import MoviePage from '../movie/movie.component';
 
 import './movies.styles.scss'
 
-const MoviesPage = ({match, movies}) => (
+const MoviesPage = ({match}) => (
     <div className="movies-page">
         <Route exact path={`${match.path}`} component={MoviesOverview}/>
         <Route path={`${match.path}/:movieId`} component={MoviePage}/>
