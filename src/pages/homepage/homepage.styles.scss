@@ -1,3 +1,5 @@
+@import '../../global/global-css.scss';
+
 .homepage{
     display: flex;
     align-items: center;
@@ -27,3 +29,10 @@
     }
 }
 
+.banner-logo{
+    max-width: 200px;
+
+    @include tablet{
+        max-width: 400px;
+    }
+}

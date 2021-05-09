@@ -1,9 +1,15 @@
+@import '../../global/global-css.scss';
+
 .results-view{
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     margin-top:15px;
+
+    @include tablet{
+        justify-content: space-between;
+    }
 }
 
 .search-form{

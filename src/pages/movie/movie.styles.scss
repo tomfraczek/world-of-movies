@@ -1,14 +1,23 @@
+@import '../../global/global-css.scss';
+
 .movie-page{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
     margin-top:40px;
+
+    @include tablet{
+        flex-direction: row;
+    }
 }
 
 .movie-details-container{
-    margin-left: 50px;
     width:100%;
+
+    @include tablet{
+        margin-left: 50px;
+    }
 }
 
 .movie-detail{
@@ -17,11 +26,21 @@
 
 .movie-card{
     min-width:300px;
+    margin: auto;
+
+    @include tablet{
+        margin: unset;
+    }
 }
 
 .cta-container{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     margin-top: 50px;
+}
+
+.custom-button{
+    margin-bottom: 10px;
 }
