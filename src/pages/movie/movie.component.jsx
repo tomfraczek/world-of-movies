@@ -20,7 +20,7 @@ class MoviePage extends React.Component {
   componentDidMount(){
     const { API_KEY } = this.state;
 
-    fetch(`http://www.omdbapi.com/?i=${this.props.match.params.movieId}&apikey=${API_KEY}`)
+    fetch(`https://www.omdbapi.com/?i=${this.props.match.params.movieId}&apikey=${API_KEY}`)
         .then(resp => resp)
         .then(resp => resp.json())
         .then(response => {

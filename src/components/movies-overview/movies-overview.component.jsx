@@ -90,7 +90,7 @@ class MoviesOverview extends React.Component {
         event.preventDefault();
         const { search, API_KEY } = this.state;
 
-        this.fetchData(`http://www.omdbapi.com/?s=${search}&apikey=${API_KEY}`);
+        this.fetchData(`https://www.omdbapi.com/?s=${search}&apikey=${API_KEY}`);
     }
 
     sortByYear = () => {
