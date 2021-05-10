@@ -135,18 +135,21 @@ class MoviePage extends React.Component {
 
                 <div className="cta-container">
                   <CustomButton
+                  classname='movie-button'
                   inverted
                   >
                     Add to Favorites
                   </CustomButton>
 
                   <CustomButton
+                  classname='movie-button'
                   inverted
                   >
                     Want to see
                   </CustomButton>
 
                   <CustomButton
+                  classname='movie-button'
                   inverted
                   >
                     Mark as watched
