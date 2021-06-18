@@ -1,29 +1,28 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import { Link } from 'react-router-dom';
 
-import CustomButton from '../custom-button/custom-button.component';
+import SideMenu from '../side-menu/side-menu.component';
+import HamburgerIcon from '../hamburger-icon/hamburger-icon.component';
 
 import logo from './assets/logo.jpg';
 
-import './header.styles.scss';
+import {
+    HeaderContainer,
+    LogoContainer
+} from './header.styles'
 
-const Header = () => (
-    <div className="header">
-        <Link className='logo-container' to='/'>
-            <img className='logo-header' src={logo} alt=""/>
-        </Link>
+const Header = () => {
+    const [open, setOpen] = useState(false);
+    const node = useRef();
 
-        <div className="options">
-            <Link className='option' to='/movies'>
-                <CustomButton
-                    inverted
-                    naked
-                >
-                    Search
-                </CustomButton>
-            </Link>
-        </div>
-    </div>
-)
+    return(
+        <HeaderContainer ref={node}>
+            <LogoContainer as={Link} to='/'>
+                <img className='logo-header' src={logo} alt=""/>
+            </LogoContainer>
+                <HamburgerIcon open={open} setOpen={setOpen} />
+                <SideMenu open={open} setOpen={setOpen} />
+        </HeaderContainer>
+)}
 
 export default Header;

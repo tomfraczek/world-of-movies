@@ -1,165 +1,206 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
+
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { addWatched, addFavorites, clearMovieFromFavorites, clearMovieFromWatched } from '../../redux/movies/movies.actions';
+import { selectFavorites, selectWatched } from '../../redux/movies/movies.selectors';
 
 import MovieCard from '../../components/movie-card/movie-card.component';
 import Spinner from '../../components/spinner/spinner.component';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import CustomInformation from '../../components/custom-information/custom-information.component';
 
+import TickIcon from './assets/tick.png';
+import SaveIcon from './assets/ribbon.png';
 import './movie.styles.scss';
 
+import {
+  MoviePageContainer,
+  MovieHeader,
+  OtherInfoContainer,
+  DescriptionContainer,
+  OptionsContainer
+} from './movie.styles';
 
-class MoviePage extends React.Component {
-  state = {
-    API_KEY: 'da814607',
+
+const MoviePage = ({
+  history, 
+  match, 
+  addWatched, 
+  addFavorites, 
+  favorites, 
+  watched, 
+  clearFromFavorites, 
+  clearFromWatched
+}) => {
+  const [api_key] = useState('e45ac1ce50026e393e410d2e2e194418');
+  const [data, setData] = useState({
+    isLoaded: false,
     result: null,
-    remember: false,
-    retrievedResults: null,
-}
+  });
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isWatched, setIsWatched] = useState(false);
 
-  componentDidMount(){
-    const { API_KEY } = this.state;
+  useEffect(() => {
+    console.log(isFavorite)
+    setData({isLoaded: false});
 
-    fetch(`https://www.omdbapi.com/?i=${this.props.match.params.movieId}&apikey=${API_KEY}`)
-        .then(resp => resp)
-        .then(resp => resp.json())
-        .then(response => {
-          this.setState({
-            result: response,
-            remember: true
-          })
-        })
-        .catch(({error}) => {
-            this.setState({
-                loading: false,
-                error: error,
-            });
-        })
-  }
+    fetch(`https://api.themoviedb.org/3/movie/${match.params.movieId}?api_key=${api_key}`)
+    .then(response => response.json())
+    .then(data => {
+      if(favorites.find(listMovie => listMovie.id === data.id)){
+        setIsFavorite(true);
+      }
 
-  render(){
-    const {result} = this.state;
-    const {history} = this.props;
+      console.log(watched.find(listMovie => listMovie.id === data.id))
+      if(watched.find(listMovie => listMovie.id === data.id)){
+        setIsWatched(true);
+      }
 
-    return(
-            <div className="movie-page">              
-              {
-                result ? <MovieCard movie={result} /> : null
-              }
+      setData({
+        isLoaded: true,
+        result: data,
+      })
+    })
+    .catch(error => {
+      setData({isLoaded: false})
+      console.log(error.message)
+    });
+    
+  }, [])
+
+    const minsToHHMM = mins => {
+      var mins_num = parseFloat(mins, 10);
+      var hours   = Math.floor(mins_num / 60);
+      var minutes = Math.floor((mins_num - ((hours * 3600)) / 60));
+  
+      if (minutes < 10) {minutes = "0"+minutes;}
+      return hours+'h'+minutes+'m';
+    }
+  
+    const DisplayMovieHeader = () => (
+      <MovieHeader>
+        <h1>{data.result.title}</h1>
+        <OtherInfoContainer>
+          <span>{data.result.release_date.split("-")[0]}</span>
+          {
+            data.result.genres.map(genre => 
+              <CustomInformation 
+                key={genre.id}
+                information={genre.name}
+              />
+            )
+          }
+
+          <CustomInformation 
+            information={minsToHHMM(data.result.runtime)}
+          />
+        </OtherInfoContainer>
+      </MovieHeader>
+    )
+
+    const handleFavorites = () => {
+      if(isFavorite){
+        clearFromFavorites(data.result);
+        setIsFavorite(false);
+      } else {
+        addFavorites(data.result);
+        setIsFavorite(true);
+      }
+    }
+
+    const handleWatched = () => {
+      if(isWatched){
+        clearFromWatched(data.result);
+        setIsWatched(false);
+      } else {
+        addWatched(data.result);
+        setIsWatched(true);
+      }
+    }
+    
+    
+  return(
+            <>
+          {
+            data.isLoaded ? 
+            <MoviePageContainer>  
+              <MovieCard movie={data.result} /> 
 
               <div className="movie-details-container">
-                {
-                  result ? 
-                  <div className='movie-details'>
-                    <CustomButton
+              <CustomButton
                 inverted
                 naked
                 onClick={() => history.goBack()}
-            >
+              >
                 Go Back
-            </CustomButton>
-                    {
-                      result.Plot !== 'N/A' ?
-                      <CustomInformation 
-                        information={result.Plot}
-                        classname='movie-detail movie-plot'
-                      />
-                      : null
-                    }
-                    {
-                      result.Director !== 'N/A' ? 
-                      <CustomInformation 
-                        title='Director:'
-                        information={result.Director}
-                        classname='movie-detail movie-plot'
-                      />
-                      : null
-                    }
-                    {
-                      result.Writer !== 'N/A' ? 
-                      <CustomInformation 
-                        title='Writers:'
-                        information={result.Writer}
-                        classname='movie-detail movie-plot'
-                      />
-                      : null
-                    }
-                    {
-                      result.Actors !== 'N/A' ? 
-                      <CustomInformation 
-                        title='Actors:'
-                        information={result.Actors}
-                        classname='movie-detail movie-plot'
-                      />
-                      : null
-                    }
-                    {
-                      result.Awards !== 'N/A' ? 
-                      <CustomInformation 
-                        title='Awards:'
-                        information={result.Awards}
-                        classname='movie-detail movie-plot'
-                      />
-                      : null
-                    }
-                    {
-                      result.Ratings !== 'N/A' ? 
-                      <div className="movie-detail movie-ratings">
-                        Ratings:
-                        {
-                          result.imdbRating ? 
-                          <CustomInformation 
-                            title='IMDb rate:'
-                            information={result.imdbRating}
-                            classname='imdb-rate'
-                          />
-                          : null
-                        }
-                        {
-                          result.Ratings.map((rating, index) => 
-                            <CustomInformation 
-                              key={index}
-                              title={rating.Source}
-                              information={rating.Source}
-                              classname='rating'
-                            />
-                          )
-                        }
-                      </div>
-                      : null
-                    }
-                    
-                  </div>
-                  : <Spinner />
+              </CustomButton>
+              <DisplayMovieHeader />
+
+              <DescriptionContainer>
+              <CustomInformation 
+                  information={data.result.overview}
+                  classname='movie-detail movie-plot'
+                />
+              </DescriptionContainer>
+              
+
+              <>
+              <CustomInformation 
+                    information={data.result.release_date}
+                    title='Release date:'
+                  />
+              </>
+    
+              <OptionsContainer>
+                
+            
+
+              <CustomButton 
+                inverted 
+                icon
+                onClick={handleWatched}
+              >
+                <img src={TickIcon} alt="" />
+                {
+                  isWatched ? 'Never seen' : 'Watched it'
                 }
+              </CustomButton>
 
-                <div className="cta-container">
-                  <CustomButton
-                  classname='movie-button'
-                  inverted
-                  >
-                    Add to Favorites
-                  </CustomButton>
+              <CustomButton 
+                inverted 
+                icon
+                onClick={handleFavorites}
+              >
+                <img src={SaveIcon} alt="" />
+                {
+                  isFavorite ? 'Remove from Favorite' : 'Add to Favorites'
+                }
+              </CustomButton>
+              </OptionsContainer>
 
-                  <CustomButton
-                  classname='movie-button'
-                  inverted
-                  >
-                    Want to see
-                  </CustomButton>
-
-                  <CustomButton
-                  classname='movie-button'
-                  inverted
-                  >
-                    Mark as watched
-                  </CustomButton>
               </div>
-              </div>
-            </div>
-        )
-    }
-  }
+            </MoviePageContainer>
+            : <Spinner />
+
+          }
+
+            </>
+    )
+}
+
+  const mapDispatchToProps = dispatch => ({
+    addWatched: result => dispatch(addWatched(result)),
+    addFavorites: result => dispatch(addFavorites(result)),
+    clearFromFavorites: movie => dispatch(clearMovieFromFavorites(movie)),
+    clearFromWatched: movie => dispatch(clearMovieFromWatched(movie))
+  });
+
+  const mapStateToProps = createStructuredSelector({
+    favorites: selectFavorites,
+    watched: selectWatched
+});
 
 
-export default withRouter(MoviePage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MoviePage));

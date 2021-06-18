@@ -1,18 +1,15 @@
 import React from 'react';
 
-import mainImage from './assets/homepage';
-import logo from '../../components/header/assets/logo.png';
+import Popular from '../../components/popular/popular.components';
 
-import './homepage.styles.scss';
+import {
+    HomepageContainer,
+} from './homepage.styles';
 
 const Homepage = () => (
-    <div className="homepage">
-    
-    <div className="banner-text">
-        <img className='banner-logo' src={logo} alt=""/>
-    </div>
-    <img src={mainImage} alt=""/>
-    </div>
+    <HomepageContainer>
+        <Popular />
+    </HomepageContainer>
 )
 
-export default Homepage
+export default Homepage;
