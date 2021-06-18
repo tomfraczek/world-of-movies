@@ -43,7 +43,6 @@ const MoviePage = ({
   const [isWatched, setIsWatched] = useState(false);
 
   useEffect(() => {
-    console.log(isFavorite)
     setData({isLoaded: false});
 
     fetch(`https://api.themoviedb.org/3/movie/${match.params.movieId}?api_key=${api_key}`)
@@ -53,7 +52,6 @@ const MoviePage = ({
         setIsFavorite(true);
       }
 
-      console.log(watched.find(listMovie => listMovie.id === data.id))
       if(watched.find(listMovie => listMovie.id === data.id)){
         setIsWatched(true);
       }

@@ -56,7 +56,6 @@ export const sortByPopularity = movieList => ({
 
 
 export const fetchMoviesStartAsync = () => {
-  console.log('fetchMoviesStartAsync')
   return dispatch => {
     dispatch(fetchMoviesStart());
 
