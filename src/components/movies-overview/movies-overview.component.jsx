@@ -12,8 +12,7 @@ import MovieCard from '../movie-card/movie-card.component';
 import Pagination from '../pagination/pagination.component';
 import SearchForm from '../search-form/search-form.component';
 import SortResults from '../../components/sort-results/sort-results.component';
-
-
+import Notification from '../../components/notification/notification.component';
 
 import {
     ResultsContainer,
@@ -52,8 +51,25 @@ const MoviesOverview = ({searchInfo, searchResults, addQueryResults}) => {
     }
 
     const RenderMovies = () => {
-        if(searchResults){
+        if(searchResults.length){
             return searchResults.map(result => <MovieCard key={result.id} movie={result} />)
+        }else{
+            return <Notification content='Nothing to show' />
+        }
+
+    }
+
+    const RenderPagination = () => {
+        if(searchResults.length){
+            return <Pagination pages={searchInfo.total_pages} handleChange={handleChange}/>
+        }
+
+        return null;
+    }
+
+    const RenderSort = () => {
+        if(searchResults.length){
+            return <SortResults />
         }
 
         return null;
@@ -62,11 +78,11 @@ const MoviesOverview = ({searchInfo, searchResults, addQueryResults}) => {
     return (
         <>
             <SearchForm />
-            <SortResults />
+            <RenderSort />
             <ResultsContainer>
                 <RenderMovies />
             </ResultsContainer>
-            <Pagination pages={searchResult.total_pages} handleChange={handleChange}/>
+            <RenderPagination />
         </>
     )
 }

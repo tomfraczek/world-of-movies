@@ -20,7 +20,7 @@ export const AppRoutes = () => (
         <Route path={RouteUrl.home} exact component={Homepage} />
         <Route path={RouteUrl.movies} exact component={MoviesPage} />
         <Route path={RouteUrl.movie} exact component={MoviePage}/>
-        <Route path={RouteUrl.search} exact component={Search}/>
+        <Route path={RouteUrl.search} exact component={MoviesPage}/>
         <Route path={RouteUrl.favorites} exact component={Favorites}/>
         <Route path={RouteUrl.watched} exact component={Watched}/>
         <Redirect to={RouteUrl.home} />
